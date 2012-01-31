@@ -21,7 +21,7 @@ sub TIEHASH {
   my $truehash = (-e $filename) ? Storable::retrieve($filename) : {};
   my %options;
   print STDERR "Memoize::Storable::TIEHASH($filename, @_)\n" if $Verbose;
-  @options{@_} = ();
+  @options{@_} = (@_);
   my $self = 
     {FILENAME => $filename, 
      H => $truehash, 

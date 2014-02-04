@@ -31,7 +31,7 @@ if ($@) {
   exit 0;
 }
 
-print "1..4\n";
+print "1..5\n";
 
 $file = "storable$$";
 1 while unlink $file;
@@ -72,5 +72,13 @@ sub tryout {
   $testno++;
   print (($t4 == 5) ? "ok $testno\n" : "not ok $testno\n");
   unmemoize 'c23';
+
+  {
+    tie my %cache2 => $tiepack, $file, 'nstore'
+      or die $!;
+    $cache2{key} = 'value';
+  }
+  $testno++;
+  print ( Storable::last_op_in_netorder() ? "ok $testno\n" : "not ok $testno\n" );
 }
 
